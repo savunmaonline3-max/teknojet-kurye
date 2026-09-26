@@ -6,25 +6,18 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Render Environment Variables'dan bilgileri alıyoruz
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-// Telegram Bot Başlatma (Polling opsiyonu)
 let bot = null;
 if (BOT_TOKEN) {
     bot = new TelegramBot(BOT_TOKEN, { polling: true });
-} else {
-    console.error("HATA: TELEGRAM_BOT_TOKEN tanımlanmamış!");
 }
 
-// Siparişleri bellekte tutma
 const orders = {};
 
-// Yeni Sipariş Bildirimi Fonksiyonu
 async function notifyCourierOfNewOrder(order) {
     const { orderId, customerName, phone, address, paymentMethod, items, total } = order;
-
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ' Gaziantep')}`;
 
     const message = 
@@ -58,7 +51,6 @@ ${items.map(i => `• ${i}`).join('\n')}
     }
 }
 
-// Telegram Buton Tıklamalarını Dinleme (Üstlendim / Teslim Edildi)
 if (bot) {
     bot.on('callback_query', async (query) => {
         const data = query.data;
@@ -92,7 +84,6 @@ if (bot) {
     });
 }
 
-// POST Endpoint: Siteden gelen siparişi yakalar
 app.post('/api/orders', async (req, res) => {
     try {
         const { customerName, phone, address, paymentMethod, items, total } = req.body;
@@ -105,8 +96,6 @@ app.post('/api/orders', async (req, res) => {
         };
 
         orders[orderId] = newOrder;
-
-        // Telegram bildirimi gönder
         await notifyCourierOfNewOrder(newOrder);
 
         res.status(200).json({ success: true, orderId });
