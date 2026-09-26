@@ -6,13 +6,13 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Render Environment Variables
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID || process.env.COURIER_CHAT_ID;
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
+// Polling kullanmıyoruz (sadece bildirim atacağı için çakışma yapmaz)
 let bot = null;
 if (BOT_TOKEN) {
-    bot = new TelegramBot(BOT_TOKEN, { polling: true });
+    bot = new TelegramBot(BOT_TOKEN);
 }
 
 const orders = {};
@@ -31,7 +31,7 @@ app.post('/api/orders', async (req, res) => {
 <b>Müşteri:</b> ${customerName}
 <b>Telefon:</b> ${phone}
 <b>Adres:</b> ${address}
-<b>Ödeme:</b> ${paymentMethod}
+<b>Ödeme Yöntemi:</b> ${paymentMethod}
 
 📦 <b>Ürünler:</b>
 ${items.map(i => `• ${i}`).join('\n')}
@@ -40,13 +40,15 @@ ${items.map(i => `• ${i}`).join('\n')}
 
 📍 <a href="${mapsUrl}">Google Maps Konumunda Aç</a>`;
 
-        if (bot && CHAT_ID) {
-            await bot.sendMessage(CHAT_ID, message, { parse_mode: 'HTML' });
+        if (!BOT_TOKEN || !CHAT_ID) {
+            throw new Error(`Token veya Chat ID eksik! Token Var Mı: ${!!BOT_TOKEN}, ChatID Var Mı: ${!!CHAT_ID}`);
         }
+
+        await bot.sendMessage(CHAT_ID, message, { parse_mode: 'HTML' });
 
         res.status(200).json({ success: true, orderId });
     } catch (error) {
-        console.error("Sipariş Hatası:", error);
+        console.error("Sipariş Hatası:", error.message);
         res.status(500).json({ success: false, error: error.message });
     }
 });
