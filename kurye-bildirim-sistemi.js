@@ -31,7 +31,7 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const app = express();
 app.use(express.json());
-
+pp.use(express.static(__dirname));
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const COURIER_CHAT_ID = process.env.COURIER_CHAT_ID;
 
