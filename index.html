@@ -16,7 +16,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text); padding-bottom: 90px; }
 
-        /* HEADER - MOBİL VE MASAÜSTÜ UYUMLU */
         header { 
             background: rgba(15, 15, 16, 0.95);
             backdrop-filter: blur(8px);
@@ -26,75 +25,84 @@
         }
         .header-content {
             display: flex; justify-content: space-between; align-items: center;
-            width: 100%; max-width: 1400px; margin: 0 auto;
+            width: 100%; max-width: 1200px; margin: 0 auto;
         }
-        .logo-group { display: flex; align-items: center; gap: 8px; }
-        .logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
+        .logo-group { display: flex; align-items: center; gap: 10px; }
+        .logo { font-size: 22px; font-weight: 800; color: #fff; text-decoration: none; }
         .delivery-area {
-            background-color: var(--card-bg); color: #4ADE80; 
-            font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
-            display: flex; align-items: center; gap: 4px;
+            background-color: #15271B; color: #4ADE80; 
+            font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+            display: flex; align-items: center; gap: 6px;
         }
-        
-        .cart-status { display: flex; align-items: center; gap: 15px; }
+
         .cart-btn {
             background-color: var(--accent); color: #fff; border: none;
-            padding: 8px 16px; border-radius: 8px; cursor: pointer;
-            font-size: 13px; font-weight: 600; text-decoration: none;
+            padding: 10px 18px; border-radius: 8px; cursor: pointer;
+            font-size: 14px; font-weight: 700; text-decoration: none;
         }
 
-        /* ANA KONTEYNER - GENİŞLİK AYARI */
         main {
-            width: 90%; max-width: 1400px; margin: 30px auto;
+            width: 90%; max-width: 1200px; margin: 30px auto;
         }
 
-        /* ÜRÜN IZGARASI - RESPONSIVE SİHRİ */
         .product-grid {
             display: grid;
             gap: 20px;
-            /* Bilgisayarda 4-5'li, Tablette 3'lü, Telefonda 2'li (Dinamik) */
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         }
 
-        /* MOBİL İÇİN (Telefonlar ve küçük tabletler) ÖZEL AYAR */
         @media (max-width: 768px) {
             main { width: 100%; padding: 15px; margin: 10px auto; }
-            header { padding: 10px 15px; }
+            header { padding: 12px 15px; }
             .product-grid {
                 gap: 12px;
-                /* Telefonda tam Getir/Yemeksepeti gibi 2'li düzen */
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* ÜRÜN KARTI TASARIMI */
         .product-card {
             background-color: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 20px;
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            transition: transform 0.2s;
-            border: 1px solid transparent;
+            border: 1px solid #2A2A2D;
         }
-        .product-card:hover { transform: translateY(-3px); border-color: #2A2A2D; }
-        .product-img { max-height: 160px; max-width: 100%; margin-bottom: 20px; }
-        .product-name { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-        .product-price { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 15px; }
-        
-        @media (max-width: 768px) {
-            .product-card { padding: 12px; border-radius: 10px; }
-            .product-img { max-height: 120px; margin-bottom: 12px; }
-            .product-name { font-size: 14px; margin-bottom: 6px; }
-            .product-price { font-size: 16px; margin-bottom: 12px; }
+        .product-icon {
+            font-size: 48px; margin-bottom: 15px; background: #252528;
+            width: 90px; height: 90px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
         }
+        .product-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #fff; }
+        .product-price { font-size: 18px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
 
         .btn-add {
             width: 100%; background-color: var(--accent); color: #fff;
-            border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px;
+            border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px;
             cursor: pointer; transition: 0.2s; margin-top: auto;
         }
-        .btn-add:active { transform: scale(0.97); background-color: #E8501A; }
+        .btn-add:hover { background-color: #E8501A; }
 
+        /* MODAL (SEPET VE SİPARİŞ FORMU) */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000;
+            justify-content: center; align-items: center; padding: 15px;
+        }
+        .modal-content {
+            background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 16px;
+            padding: 25px; border: 1px solid #333; position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; color: var(--muted); cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; background: #0F0F10; border: 1px solid #333;
+            border-radius: 8px; color: #fff; font-size: 14px; outline: none;
+        }
+        .submit-btn {
+            width: 100%; background: #22C55E; color: #fff; border: none; padding: 14px;
+            border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -105,59 +113,135 @@
             <a href="#" class="logo">TeknoJet <span style="color:var(--accent)">Plus</span></a>
             <div class="delivery-area"><span>●</span> Gaziantep</div>
         </div>
-        <div class="cart-status">
-            <a href="#" class="cart-btn" id="openCart">Sepet (0)</a>
+        <div>
+            <button class="cart-btn" id="openCartBtn" onclick="openCart()">Sepet (<span id="cartCount">0</span>)</button>
         </div>
     </div>
 </header>
 
 <main>
     <div class="product-grid">
-        <!-- Örnek Ürünler -->
         <div class="product-card">
-            <img src="https://assets.gopuff.com/product_images/apple-20w-usb-c-power-adapter-1-ct_8c9b5b29b6d8b2e352d480da3c86fb0f4da0e8e9.png?fm=webp&q=75&w=260" alt="Apple 20W" class="product-img">
-            <h3 class="product-name">Apple 20W Hızlı Şarj Adaptörü (Orijinal)</h3>
-            <p class="product-price">1.299 ₺</p>
-            <button class="btn-add">Sepete Ekle</button>
+            <div class="product-icon">🔌</div>
+            <h3 class="product-name">20W Hızlı Şarj Adaptörü</h3>
+            <p class="product-price">349 ₺</p>
+            <button class="btn-add" onclick="addToCart('20W Hızlı Şarj Adaptörü', 349)">Sepete Ekle</button>
         </div>
-        
         <div class="product-card">
-            <img src="https://assets.gopuff.com/product_images/anker-powercore-metro-essential-20000-mah-portable-charger-black_a06488d0ed3e0b2e352d480da3c86fb0f4da0e8e9.png?fm=webp&q=75&w=260" alt="Anker 20K" class="product-img">
-            <h3 class="product-name">Anker PowerCore 20.000 mAh Hızlı Powerbank</h3>
-            <p class="product-price">2.499 ₺</p>
-            <button class="btn-add">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card">
-            <img src="https://assets.gopuff.com/product_images/spigen-essential-lightning-cable-0-9m-black_a06488d0ed3e0b2e352d480da3c86fb0f4da0e8e9.png?fm=webp&q=75&w=260" alt="Spigen Kablo" class="product-img">
-            <h3 class="product-name">Spigen Essential Lightning MFi Şarj Kablosu 1.5M</h3>
+            <div class="product-icon">🔋</div>
+            <h3 class="product-name">10.000 mAh Powerbank</h3>
             <p class="product-price">499 ₺</p>
-            <button class="btn-add">Sepete Ekle</button>
+            <button class="btn-add" onclick="addToCart('10.000 mAh Powerbank', 499)">Sepete Ekle</button>
         </div>
-        
         <div class="product-card">
-            <img src="https://assets.gopuff.com/product_images/airpods-pro-2nd-generation_a06488d0ed3e0b2e352d480da3c86fb0f4da0e8e9.png?fm=webp&q=75&w=260" alt="AirPods Pro" class="product-img">
-            <h3 class="product-name">AirPods Pro (2. Nesil) Magsafe Kutulu</h3>
-            <p class="product-price">7.999 ₺</p>
-            <button class="btn-add">Sepete Ekle</button>
+            <div class="product-icon">⚡</div>
+            <h3 class="product-name">Hızlı Şarj Kablosu Type-C</h3>
+            <p class="product-price">199 ₺</p>
+            <button class="btn-add" onclick="addToCart('Hızlı Şarj Kablosu Type-C', 199)">Sepete Ekle</button>
         </div>
-        
         <div class="product-card">
-            <img src="https://assets.gopuff.com/product_images/apple-20w-usb-c-power-adapter-1-ct_8c9b5b29b6d8b2e352d480da3c86fb0f4da0e8e9.png?fm=webp&q=75&w=260" alt="Apple 20W" class="product-img">
-            <h3 class="product-name">Apple 20W Hızlı Şarj Adaptörü (Orijinal)</h3>
-            <p class="product-price">1.299 ₺</p>
-            <button class="btn-add">Sepete Ekle</button>
+            <div class="product-icon">🎧</div>
+            <h3 class="product-name">Bluetooth Kulaklık</h3>
+            <p class="product-price">599 ₺</p>
+            <button class="btn-add" onclick="addToCart('Bluetooth Kulaklık', 599)">Sepete Ekle</button>
         </div>
-        
-        <div class="product-card">
-            <img src="https://assets.gopuff.com/product_images/anker-powercore-metro-essential-20000-mah-portable-charger-black_a06488d0ed3e0b2e352d480da3c86fb0f4da0e8e9.png?fm=webp&q=75&w=260" alt="Anker 20K" class="product-img">
-            <h3 class="product-name">Anker PowerCore 20.000 mAh Hızlı Powerbank</h3>
-            <p class="product-price">2.499 ₺</p>
-            <button class="btn-add">Sepete Ekle</button>
-        </div>
-
     </div>
 </main>
+
+<!-- SEPET VE SİPARİŞ MODALI -->
+<div class="modal" id="orderModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+        <h2 style="margin-bottom: 15px; color:#fff;">Sipariş Bilgileri</h2>
+        <div id="cartSummary" style="margin-bottom: 20px; padding:10px; background:#0F0F10; border-radius:8px; color:var(--accent); font-weight:700;"></div>
+        
+        <form id="orderForm" onsubmit="submitOrder(event)">
+            <div class="form-group">
+                <label>Adınız Soyadınız</label>
+                <input type="text" id="custName" required placeholder="Örn: Hasan Aslan">
+            </div>
+            <div class="form-group">
+                <label>Telefon Numaranız</label>
+                <input type="tel" id="custPhone" required placeholder="05XX XXX XX XX">
+            </div>
+            <div class="form-group">
+                <label>Teslimat Adresi (Gaziantep)</label>
+                <textarea id="custAddress" rows="3" required placeholder="Mahalle, Cadde, Sokak, Bina No..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Ödeme Yöntemi</label>
+                <select id="paymentMethod">
+                    <option value="Kapıda Nakit">Kapıda Nakit</option>
+                    <option value="Kapıda Kredi Kartı / POS">Kapıda Kredi Kartı (POS)</option>
+                    <option value="IBAN / Havale">IBAN / Havale</option>
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">Siparişi Onayla & Kurye Çağır</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCartUI();
+        openCart();
+    }
+
+    function updateCartUI() {
+        document.getElementById('cartCount').innerText = cart.length;
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        let itemsText = cart.map(i => i.name).join(', ');
+        document.getElementById('cartSummary').innerText = `Sepetiniz (${cart.length} Ürün): ${total} ₺\n${itemsText}`;
+    }
+
+    function openCart() {
+        if(cart.length === 0) {
+            alert('Sepetiniz boş! Lütfen ürün ekleyin.');
+            return;
+        }
+        document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeCart() {
+        document.getElementById('orderModal').style.display = 'none';
+    }
+
+    async function submitOrder(e) {
+        e.preventDefault();
+        
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        const orderData = {
+            customerName: document.getElementById('custName').value,
+            phone: document.getElementById('custPhone').value,
+            address: document.getElementById('custAddress').value,
+            paymentMethod: document.getElementById('paymentMethod').value,
+            items: cart.map(i => i.name),
+            total: total
+        };
+
+        try {
+            const res = await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+
+            if(res.ok) {
+                alert('Siparişiniz alındı! Kuryemiz yola çıkıyor.');
+                cart = [];
+                updateCartUI();
+                closeCart();
+            } else {
+                alert('Sipariş gönderilirken bir hata oluştu.');
+            }
+        } catch(err) {
+            alert('Sunucuya bağlanılamadı.');
+        }
+    }
+</script>
 
 </body>
 </html>
