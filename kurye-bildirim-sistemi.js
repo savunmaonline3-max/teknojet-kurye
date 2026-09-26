@@ -6,10 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+// Telegram Bot Bilgileri
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
+// Senin şahsi Telegram ID'n (RawDataBot'tan aldığımız):
+const CHAT_ID = '23762709';
 
-// Polling kullanmıyoruz (sadece bildirim atacağı için çakışma yapmaz)
 let bot = null;
 if (BOT_TOKEN) {
     bot = new TelegramBot(BOT_TOKEN);
@@ -40,11 +41,9 @@ ${items.map(i => `• ${i}`).join('\n')}
 
 📍 <a href="${mapsUrl}">Google Maps Konumunda Aç</a>`;
 
-        if (!BOT_TOKEN || !CHAT_ID) {
-            throw new Error(`Token veya Chat ID eksik! Token Var Mı: ${!!BOT_TOKEN}, ChatID Var Mı: ${!!CHAT_ID}`);
+        if (bot) {
+            await bot.sendMessage(CHAT_ID, message, { parse_mode: 'HTML' });
         }
-
-        await bot.sendMessage(CHAT_ID, message, { parse_mode: 'HTML' });
 
         res.status(200).json({ success: true, orderId });
     } catch (error) {
