@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
-const axios = require('axios');
 
 const app = express();
 app.use(express.json());
@@ -11,7 +10,7 @@ app.use(express.static(__dirname));
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '-1003900873538';
 
-// Green-API Bilgileri (Bağlanan WhatsApp Hesabın)
+// Green-API Bilgileri
 const GREEN_ID_INSTANCE = process.env.GREEN_ID_INSTANCE || '710722747828';
 const GREEN_API_TOKEN = process.env.GREEN_API_TOKEN || 'ce58288d5c364e0e834dfd39e5fe731320d3ef2712a3402e86';
 
@@ -46,14 +45,18 @@ Gaziantep içi ışık hızında teslimat ilkesiyle en kısa sürede adresinizde
 
 _Canlı Destek & İletişim: 0507 518 8663_`;
 
-        await axios.post(waUrl, {
-            chatId: `${cleanPhone}@c.us`,
-            message: waMessage
+        await fetch(waUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chatId: `${cleanPhone}@c.us`,
+                message: waMessage
+            })
         });
 
-        console.log(`WhatsApp bildirimi başarıyla gönderildi: ${cleanPhone}`);
+        console.log(`WhatsApp bildirimi gönderildi: ${cleanPhone}`);
     } catch (err) {
-        console.error("WhatsApp Gönderim Hatası:", err.response ? err.response.data : err.message);
+        console.error("WhatsApp Gönderim Hatası:", err.message);
     }
 }
 
@@ -66,7 +69,7 @@ app.post('/api/orders', async (req, res) => {
         const cleanPhone = phone ? phone.replace(/\s+/g, '') : '';
         const telUrl = `tel:${cleanPhone}`;
 
-        // 1. TELEGRAM KURYE KANAL BİLDİRİMİ (Kurumsal Format)
+        // 1. TELEGRAM KURYE KANAL BİLDİRİMİ
         const telegramMessage = 
 `⚡️ <b>TEKNOJET PLUS | YENİ SİPARİŞ BİLDİRİMİ</b>
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -104,7 +107,7 @@ ${items.map(item => `▫️ ${item}`).join('\n')}
             });
         }
 
-        // 2. MÜŞTERİYE OTOMATİK WHATSAPP MESAJI GÖNDERİMİ
+        // 2. OTOMATİK WHATSAPP MESAJI
         sendWhatsAppNotification(phone, customerName, orderId, total);
 
         res.status(200).json({ success: true, orderId });
