@@ -121,7 +121,7 @@
         .service-btn {
             background: #090d16;
             border: 1px solid var(--border-color);
-            padding: 15px;
+            padding: 16px;
             border-radius: 12px;
             color: var(--text-sub);
             cursor: pointer;
@@ -131,8 +131,8 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
         }
 
         .service-btn i {
@@ -228,7 +228,7 @@
         }
 
         .price-info h3 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--accent-green);
             font-weight: 800;
         }
@@ -283,28 +283,28 @@
     <div class="main-container">
         <div class="hero-title">
             <h1>Kurumsal VIP Kurye Çağır</h1>
-            <p>Gaziantep içi evrak, paket, koli ve VIP kurye hizmeti</p>
+            <p>Gaziantep içi evrak, paket, koli ve hızlı kurye çözümleri</p>
         </div>
 
         <div class="order-card">
             <!-- Gönderi Türü -->
-            <span class="section-label">1. Gönderi Türü Seçin</span>
+            <span class="section-label">1. Gönderi Türü</span>
             <div class="service-selector">
-                <div class="service-btn active" data-service="Evrak / Resmi Dosya" data-base="130">
+                <div class="service-btn active" data-service="Evrak / Resmi Dosya">
                     <i class="fa-solid fa-file-contract"></i>
-                    Evrak / Dosya (130 TL)
+                    Evrak / Dosya
                 </div>
-                <div class="service-btn" data-service="Paket / Koli Taşıma" data-base="150">
+                <div class="service-btn" data-service="Paket / Koli Taşıma">
                     <i class="fa-solid fa-box-open"></i>
-                    Paket / Koli (150 TL)
+                    Paket / Koli
                 </div>
-                <div class="service-btn" data-service="Hassas / Değerli Eşya" data-base="200">
+                <div class="service-btn" data-service="Hassas / Değerli Eşya">
                     <i class="fa-solid fa-gem"></i>
-                    Hassas Eşya (200 TL)
+                    Hassas Eşya
                 </div>
-                <div class="service-btn" data-service="VIP Şarj & Teknoloji Kurye" data-base="140">
+                <div class="service-btn" data-service="VIP Teknoloji Kurye">
                     <i class="fa-solid fa-charging-station"></i>
-                    VIP Teknoloji (140 TL)
+                    VIP Teknoloji
                 </div>
             </div>
 
@@ -345,9 +345,9 @@
                     <div class="form-group">
                         <label><i class="fa-solid fa-route"></i> Tahmini Mesafe</label>
                         <select id="distanceKm" class="form-control">
-                            <option value="1 - 10 KM (Şehir İçi Standart)" data-add="0">1 - 10 KM (Standart Bölge)</option>
-                            <option value="10 - 15 KM (Orta Bölge / Sanayi)" data-add="50">10 - 15 KM (+50 TL Fark)</option>
-                            <option value="15 - 25 KM (Organize Sanayi / Uzak)" data-add="100">15 - 25 KM (+100 TL Fark)</option>
+                            <option value="0 - 6 KM (Standart Bölge)" data-add="0">0 - 6 KM (Standart Bölge)</option>
+                            <option value="6 - 12 KM (Orta Bölge)" data-add="40">6 - 12 KM (+40 TL Fark)</option>
+                            <option value="12 - 20 KM (Organize Sanayi / Uzak)" data-add="80">12 - 20 KM (+80 TL Fark)</option>
                         </select>
                     </div>
 
@@ -370,7 +370,7 @@
                 <div class="price-calculator">
                     <div class="price-info">
                         <span>Hesaplanan Toplam Tutar</span>
-                        <h3 id="totalPriceDisplay">130 TL</h3>
+                        <h3 id="totalPriceDisplay">110 TL</h3>
                     </div>
                     <div style="color: var(--text-sub); font-size: 0.85rem; text-align: right;">
                         <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i> Sabit Fiyat Garantisi
@@ -390,7 +390,7 @@
 
     <script>
         let selectedService = "Evrak / Resmi Dosya";
-        let basePrice = 130;
+        const basePrice = 110; // 0-6 KM için standart taban fiyat 110 TL
         let deliveryType = "Sadece Tek Yön Teslimat";
         let returnExtraPrice = 0;
 
@@ -400,7 +400,6 @@
                 document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 selectedService = this.getAttribute('data-service');
-                basePrice = parseInt(this.getAttribute('data-base'));
                 updatePrice();
             });
         });
