@@ -18,7 +18,7 @@ if (BOT_TOKEN) {
 }
 
 // Müşteriye Otomatik WhatsApp Mesajı Gönderme
-async function sendWhatsAppNotification(phone, customerName, orderId, total) {
+async function sendWhatsAppNotification(phone, customerName, orderId, total, serviceType, distanceKm) {
     try {
         let cleanPhone = phone.replace(/\D/g, '');
         if (cleanPhone.startsWith('0')) {
@@ -30,16 +30,18 @@ async function sendWhatsAppNotification(phone, customerName, orderId, total) {
         const waUrl = `https://7107.api.greenapi.com/waInstance${GREEN_ID_INSTANCE}/sendMessage/${GREEN_API_TOKEN}`;
         
         const waMessage = 
-`🚀 *TEKNOJET PLUS | SİPARİŞİNİZ ALINDI!*
+`🚀 *TEKNOJET PLUS | KURYE SİPARİŞİNİZ ALINDI!*
 
 Merhaba *${customerName}*,
 
-*#TJ-${orderId}* numaralı kurye siparişiniz başarıyla sistemimize ulaşmıştır. ⚡️
+*#TJ-${orderId}* numaralı kurumsal kurye talebiniz başarıyla oluşturulmuştur. ⚡️
 
-📦 *Sipariş Tutarı:* ${total} TL
-🛵 *Durum:* Kuryemiz siparişinizi hazırladı ve adresinize doğru yola çıktı!
+📋 *Gönderi Tipi:* ${serviceType}
+📍 *Mesafe:* Tahmini ${distanceKm} KM
+💰 *Hesaplanan Tutar:* ${total} TL
+🛵 *Durum:* Kuryemiz adresinize yönlendirildi!
 
-Gaziantep içi ışık hızında teslimat ilkesiyle en kısa sürede adresinizde olacağız.
+Gaziantep içi ışık hızında ve güvenli teslimat garantisiyle en kısa sürede adresinizde olacağız.
 
 _Canlı Destek & İletişim: 0507 518 8663_`;
 
@@ -60,12 +62,12 @@ _Canlı Destek & İletişim: 0507 518 8663_`;
 
 app.post('/api/orders', async (req, res) => {
     try {
-        const { customerName, phone, address, paymentMethod, items, total } = req.body;
+        const { customerName, phone, pickupAddress, deliveryAddress, serviceType, distanceKm, paymentMethod, note, total } = req.body;
         const orderId = Math.floor(100000 + Math.random() * 900000);
         
-        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ' Gaziantep')}`;
+        const pickupMaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pickupAddress + ' Gaziantep')}`;
+        const deliveryMaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(deliveryAddress + ' Gaziantep')}`;
         
-        // Telefon numarasını https://wa.me formatına dönüştürüyoruz (Telegram inline buton hatasını çözer)
         let cleanPhone = phone ? phone.replace(/\D/g, '') : '';
         if (cleanPhone.startsWith('0')) {
             cleanPhone = '90' + cleanPhone.substring(1);
@@ -74,9 +76,9 @@ app.post('/api/orders', async (req, res) => {
         }
         const waContactUrl = `https://wa.me/${cleanPhone}`;
 
-        // 1. TELEGRAM KURYE KANAL BİLDİRİMİ
+        // 1. TELEGRAM KURYE KANAL BİLDİRİMİ (Kurumsal Detaylı Format)
         const telegramMessage = 
-`⚡️ <b>TEKNOJET PLUS | YENİ SİPARİŞ BİLDİRİMİ</b>
+`⚡️ <b>TEKNOJET PLUS | YENİ KURYE TALEBİ</b>
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
 🆔 <b>SİPARİŞ NO:</b> <code>#TJ-${orderId}</code>
@@ -85,17 +87,22 @@ app.post('/api/orders', async (req, res) => {
 👤 <b>MÜŞTERİ BİLGİLERİ</b>
 • <b>Ad Soyad:</b> <code>${customerName}</code>
 • <b>Telefon:</b> <code>${phone}</code>
+• <b>Gönderi Tipi:</b> <code>${serviceType}</code>
 • <b>Ödeme Tipi:</b> <code>${paymentMethod}</code>
 
-📍 <b>TESLİMAT ADRESİ</b>
-<code>${address} / Gaziantep</code>
+📦 <b>GÖNDERİ VE MESAFE DETAYI</b>
+• <b>Tahmini Mesafe:</b> <code>${distanceKm} KM</code>
+• <b>Özel Not:</b> <code>${note || 'Yok'}</code>
 
-📦 <b>SİPARİŞ İÇERİĞİ</b>
-${items.map(item => `▫️ ${item}`).join('\n')}
+🛫 <b>ALIM ADRESİ (Çıkış):</b>
+<code>${pickupAddress} / Gaziantep</code>
+
+🛬 <b>TESLİMAT ADRESİ (Varış):</b>
+<code>${deliveryAddress} / Gaziantep</code>
 
 💰 <b>TOPLAM TUTAR:</b> <b>${total} TL</b>
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-<i>Sipariş TeknoJet kurye paneline otomatik aktarılmıştır.</i>`;
+<i>Sipariş kurye operasyon paneline aktarılmıştır.</i>`;
 
         if (bot) {
             await bot.sendMessage(CHAT_ID, telegramMessage, { 
@@ -104,7 +111,10 @@ ${items.map(item => `▫️ ${item}`).join('\n')}
                 reply_markup: {
                     inline_keyboard: [
                         [
-                            { text: "📍 Google Maps Konumu", url: mapsUrl },
+                            { text: "📍 Alım Adresi Konumu", url: pickupMaps },
+                            { text: "📍 Teslimat Konumu", url: deliveryMaps }
+                        ],
+                        [
                             { text: "💬 Müşteri WhatsApp İletişim", url: waContactUrl }
                         ]
                     ]
@@ -112,8 +122,8 @@ ${items.map(item => `▫️ ${item}`).join('\n')}
             });
         }
 
-        // 2. OTOMATİK WHATSAPP MESAJI GÖNDERİMİ
-        sendWhatsAppNotification(phone, customerName, orderId, total);
+        // 2. OTOMATİK WHATSAPP MESAJI
+        sendWhatsAppNotification(phone, customerName, orderId, total, serviceType, distanceKm);
 
         res.status(200).json({ success: true, orderId });
     } catch (error) {
