@@ -1,45 +1,111 @@
 require('dotenv').config();
 const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
+const axios = require('axios');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
+// Telegram Bilgileri
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
-// RawDataBot'tan aldığımız yeni Kanal ID'si:
-const CHAT_ID = '-1003900873538'; 
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '-1003900873538';
+
+// Green-API Bilgileri (Bağlanan WhatsApp Hesabın)
+const GREEN_ID_INSTANCE = process.env.GREEN_ID_INSTANCE || '710722747828';
+const GREEN_API_TOKEN = process.env.GREEN_API_TOKEN || 'ce58288d5c364e0e834dfd39e5fe731320d3ef2712a3402e86';
 
 let bot = null;
 if (BOT_TOKEN) {
     bot = new TelegramBot(BOT_TOKEN);
 }
 
+// Müşteriye Otomatik WhatsApp Mesajı Gönderme
+async function sendWhatsAppNotification(phone, customerName, orderId, total) {
+    try {
+        let cleanPhone = phone.replace(/\D/g, '');
+        if (cleanPhone.startsWith('0')) {
+            cleanPhone = '90' + cleanPhone.substring(1);
+        } else if (!cleanPhone.startsWith('90')) {
+            cleanPhone = '90' + cleanPhone;
+        }
+
+        const waUrl = `https://7107.api.greenapi.com/waInstance${GREEN_ID_INSTANCE}/sendMessage/${GREEN_API_TOKEN}`;
+        
+        const waMessage = 
+`🚀 *TEKNOJET PLUS | SİPARİŞİNİZ ALINDI!*
+
+Merhaba *${customerName}*,
+
+*#TJ-${orderId}* numaralı kurye siparişiniz başarıyla sistemimize ulaşmıştır. ⚡️
+
+📦 *Sipariş Tutarı:* ${total} TL
+🛵 *Durum:* Kuryemiz siparişinizi hazırladı ve adresinize doğru yola çıktı!
+
+Gaziantep içi ışık hızında teslimat ilkesiyle en kısa sürede adresinizde olacağız.
+
+_Canlı Destek & İletişim: 0507 518 8663_`;
+
+        await axios.post(waUrl, {
+            chatId: `${cleanPhone}@c.us`,
+            message: waMessage
+        });
+
+        console.log(`WhatsApp bildirimi başarıyla gönderildi: ${cleanPhone}`);
+    } catch (err) {
+        console.error("WhatsApp Gönderim Hatası:", err.response ? err.response.data : err.message);
+    }
+}
+
 app.post('/api/orders', async (req, res) => {
     try {
         const { customerName, phone, address, paymentMethod, items, total } = req.body;
         const orderId = Math.floor(100000 + Math.random() * 900000);
+        
         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ' Gaziantep')}`;
+        const cleanPhone = phone ? phone.replace(/\s+/g, '') : '';
+        const telUrl = `tel:${cleanPhone}`;
 
-        const message = 
-`🚨 <b>YENİ TEKNOJET SİPARİŞİ!</b> 🚨
+        // 1. TELEGRAM KURYE KANAL BİLDİRİMİ (Kurumsal Format)
+        const telegramMessage = 
+`⚡️ <b>TEKNOJET PLUS | YENİ SİPARİŞ BİLDİRİMİ</b>
+➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
-<b>Sipariş No:</b> #${orderId}
-<b>Müşteri:</b> ${customerName}
-<b>Telefon:</b> ${phone}
-<b>Adres:</b> ${address}
-<b>Ödeme Yöntemi:</b> ${paymentMethod}
+🆔 <b>SİPARİŞ NO:</b> <code>#TJ-${orderId}</code>
+⏰ <b>TARİH/SAAT:</b> <code>${new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' })}</code>
 
-📦 <b>Ürünler:</b>
-${items.map(i => `• ${i}`).join('\n')}
+👤 <b>MÜŞTERİ BİLGİLERİ</b>
+• <b>Ad Soyad:</b> <code>${customerName}</code>
+• <b>Telefon:</b> <code>${phone}</code>
+• <b>Ödeme Tipi:</b> <code>${paymentMethod}</code>
 
-💰 <b>Toplam Tutar:</b> ${total} ₺
+📍 <b>TESLİMAT ADRESİ</b>
+<code>${address} / Gaziantep</code>
 
-📍 <a href="${mapsUrl}">Google Maps Konumunda Aç</a>`;
+📦 <b>SİPARİŞ İÇERİĞİ</b>
+${items.map(item => `▫️ ${item}`).join('\n')}
+
+💰 <b>TOPLAM TUTAR:</b> <b>${total} TL</b>
+➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+<i>Sipariş TeknoJet kurye paneline otomatik aktarılmıştır.</i>`;
 
         if (bot) {
-            await bot.sendMessage(CHAT_ID, message, { parse_mode: 'HTML' });
+            await bot.sendMessage(CHAT_ID, telegramMessage, { 
+                parse_mode: 'HTML',
+                disable_web_page_preview: true,
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: "📍 Google Maps Konumu", url: mapsUrl },
+                            { text: "📞 Müşteriyi Ara", url: telUrl }
+                        ]
+                    ]
+                }
+            });
         }
+
+        // 2. MÜŞTERİYE OTOMATİK WHATSAPP MESAJI GÖNDERİMİ
+        sendWhatsAppNotification(phone, customerName, orderId, total);
 
         res.status(200).json({ success: true, orderId });
     } catch (error) {
