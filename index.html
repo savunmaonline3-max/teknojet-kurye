@@ -3,245 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeknoJet Plus — 30 Dakikada Gaziantep'te Kapında!</title>
+    <title>TeknoJet Plus | VIP Kurumsal Kurye & Lojistik Hizmetleri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0F0F10;
-            --card-bg: #1A1A1C;
-            --accent: #FF5A1F;
-            --text: #F1F1F1;
-            --muted: #8F8F9B;
+            --bg-dark: #090d16;
+            --card-bg: #131b2e;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: #1e293b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text); padding-bottom: 90px; }
-
-        header { 
-            background: rgba(15, 15, 16, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid #2A2A2D;
-            position: sticky; top: 0; z-index: 1000;
-            padding: 15px 5%;
-        }
-        .header-content {
-            display: flex; justify-content: space-between; align-items: center;
-            width: 100%; max-width: 1200px; margin: 0 auto;
-        }
-        .logo-group { display: flex; align-items: center; gap: 10px; }
-        .logo { font-size: 22px; font-weight: 800; color: #fff; text-decoration: none; }
-        .delivery-area {
-            background-color: #15271B; color: #4ADE80; 
-            font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
-            display: flex; align-items: center; gap: 6px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .cart-btn {
-            background-color: var(--accent); color: #fff; border: none;
-            padding: 10px 18px; border-radius: 8px; cursor: pointer;
-            font-size: 14px; font-weight: 700; text-decoration: none;
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        main {
-            width: 90%; max-width: 1200px; margin: 30px auto;
+        header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .product-grid {
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        .badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px 20px;
+        }
+
+        .hero-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-title h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title p {
+            color: var(--text-sub);
+            font-size: 1rem;
+        }
+
+        .order-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-selector {
             display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        @media (max-width: 768px) {
-            main { width: 100%; padding: 15px; margin: 10px auto; }
-            header { padding: 12px 15px; }
-            .product-grid {
-                gap: 12px;
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .service-btn {
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 12px;
+            color: var(--text-sub);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
-        .product-card {
-            background-color: var(--card-bg);
+        .service-btn i {
+            font-size: 1.4rem;
+        }
+
+        .service-btn.active {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .price-calculator {
+            background: #090d16;
+            border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 20px;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            border: 1px solid #2A2A2D;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .product-icon {
-            font-size: 48px; margin-bottom: 15px; background: #252528;
-            width: 90px; height: 90px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .product-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #fff; }
-        .product-price { font-size: 18px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
 
-        .btn-add {
-            width: 100%; background-color: var(--accent); color: #fff;
-            border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px;
-            cursor: pointer; transition: 0.2s; margin-top: auto;
+        .price-info span {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            font-weight: 700;
         }
-        .btn-add:hover { background-color: #E8501A; }
 
-        /* MODAL (SEPET VE SİPARİŞ FORMU) */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000;
-            justify-content: center; align-items: center; padding: 15px;
+        .price-info h3 {
+            font-size: 1.8rem;
+            color: var(--accent-green);
+            font-weight: 800;
         }
-        .modal-content {
-            background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 16px;
-            padding: 25px; border: 1px solid #333; position: relative; max-height: 90vh; overflow-y: auto;
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-green);
+            color: #090d16;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; color: var(--muted); cursor: pointer; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 12px; background: #0F0F10; border: 1px solid #333;
-            border-radius: 8px; color: #fff; font-size: 14px; outline: none;
+
+        .btn-submit:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
         }
-        .submit-btn {
-            width: 100%; background: #22C55E; color: #fff; border: none; padding: 14px;
-            border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 10px;
+
+        footer {
+            margin-top: auto;
+            padding: 25px;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .service-selector { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-content">
-        <div class="logo-group">
-            <a href="#" class="logo">TeknoJet <span style="color:var(--accent)">Plus</span></a>
-            <div class="delivery-area"><span>●</span> Gaziantep</div>
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i> TEKNOJET<span>PLUS</span>
         </div>
-        <div>
-            <button class="cart-btn" id="openCartBtn" onclick="openCart()">Sepet (<span id="cartCount">0</span>)</button>
+        <div class="badge">
+            <i class="fa-solid fa-shield-halved"></i> Gaziantep VIP Lojistik
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="hero-title">
+            <h1>Kurumsal VIP Kurye Çağır</h1>
+            <p>Gaziantep içi evrak, paket, hassas eşya ve hızlı kurye çözümleri</p>
+        </div>
+
+        <div class="order-card">
+            <!-- Gönderi Tipi Seçimi -->
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; display: block; margin-bottom: 12px;">Gönderi Türü Seçin</label>
+            <div class="service-selector">
+                <div class="service-btn active" data-service="Evrak / Resmi Dosya" data-base="120">
+                    <i class="fa-solid fa-file-contract"></i>
+                    Evrak / Dosya
+                </div>
+                <div class="service-btn" data-service="Paket / Koli Taşıma" data-base="150">
+                    <i class="fa-solid fa-box-open"></i>
+                    Paket / Koli
+                </div>
+                <div class="service-btn" data-service="Hassas / Değerli Eşya" data-base="200">
+                    <i class="fa-solid fa-gem"></i>
+                    Hassas Eşya
+                </div>
+                <div class="service-btn" data-service="VIP Şarj & Teknoloji Kurye" data-base="140">
+                    <i class="fa-solid fa-charging-station"></i>
+                    VIP Teknoloji
+                </div>
+            </div>
+
+            <form id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-regular fa-user"></i> Ad Soyad</label>
+                        <input type="text" id="customerName" class="form-control" placeholder="Hasan Aslan" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Telefon Numarası</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="0507 518 8663" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-location-arrow"></i> Paket Alım Adresi (Nereden?)</label>
+                    <input type="text" id="pickupAddress" class="form-control" placeholder="Mahalle, Cadde, İş Yeri veya Adres..." required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-location-dot"></i> Teslimat Adresi (Nereye?)</label>
+                    <input type="text" id="deliveryAddress" class="form-control" placeholder="Teslim edilecek adres / Şahıs bilgisi..." required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-route"></i> Tahmini Mesafe (KM)</label>
+                        <select id="distanceKm" class="form-control">
+                            <option value="1-5 KM (Şehir İçi Yakın)" data-extra="0">1 - 5 KM (Şehir İçi)</option>
+                            <option value="5-10 KM (Orta Mesafe)" data-extra="40">5 - 10 KM (Orta Bölge)</option>
+                            <option value="10-20 KM (Uzak Bölge / Organize)" data-extra="90">10 - 20 KM (Organize Sanayi/Uzak)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-wallet"></i> Ödeme Tipi</label>
+                        <select id="paymentMethod" class="form-control">
+                            <option value="Kapıda Nakit">Kapıda Nakit</option>
+                            <option value="Kapıda Kredi Kartı">Kapıda POS / Kredi Kartı</option>
+                            <option value="Havale / EFT">Şirket Hesabına Havale</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-regular fa-note-sticky"></i> Kuryeye Not (Opsiyonel)</label>
+                    <input type="text" id="note" class="form-control" placeholder="Örn: Evrak acildir, imzalanıp geri getirilecek.">
+                </div>
+
+                <!-- Canlı Fiyat Paneli -->
+                <div class="price-calculator">
+                    <div class="price-info">
+                        <span>Hesaplanan Kurye Ücreti</span>
+                        <h3 id="totalPriceDisplay">120 TL</h3>
+                    </div>
+                    <div style="color: var(--text-sub); font-size: 0.85rem; text-align: right;">
+                        <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i> Sabit Fiyat Garantisi
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-paper-plane"></i> VIP Kurye Talebi Oluştur
+                </button>
+            </form>
         </div>
     </div>
-</header>
 
-<main>
-    <div class="product-grid">
-        <div class="product-card">
-            <div class="product-icon">🔌</div>
-            <h3 class="product-name">20W Hızlı Şarj Adaptörü</h3>
-            <p class="product-price">349 ₺</p>
-            <button class="btn-add" onclick="addToCart('20W Hızlı Şarj Adaptörü', 349)">Sepete Ekle</button>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🔋</div>
-            <h3 class="product-name">10.000 mAh Powerbank</h3>
-            <p class="product-price">499 ₺</p>
-            <button class="btn-add" onclick="addToCart('10.000 mAh Powerbank', 499)">Sepete Ekle</button>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">⚡</div>
-            <h3 class="product-name">Hızlı Şarj Kablosu Type-C</h3>
-            <p class="product-price">199 ₺</p>
-            <button class="btn-add" onclick="addToCart('Hızlı Şarj Kablosu Type-C', 199)">Sepete Ekle</button>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🎧</div>
-            <h3 class="product-name">Bluetooth Kulaklık</h3>
-            <p class="product-price">599 ₺</p>
-            <button class="btn-add" onclick="addToCart('Bluetooth Kulaklık', 599)">Sepete Ekle</button>
-        </div>
-    </div>
-</main>
+    <footer>
+        &copy; 2026 TeknoJet Plus Kurumsal Kurye & Lojistik Hizmetleri | Gaziantep
+    </footer>
 
-<!-- SEPET VE SİPARİŞ MODALI -->
-<div class="modal" id="orderModal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeCart()">&times;</span>
-        <h2 style="margin-bottom: 15px; color:#fff;">Sipariş Bilgileri</h2>
-        <div id="cartSummary" style="margin-bottom: 20px; padding:10px; background:#0F0F10; border-radius:8px; color:var(--accent); font-weight:700;"></div>
-        
-        <form id="orderForm" onsubmit="submitOrder(event)">
-            <div class="form-group">
-                <label>Adınız Soyadınız</label>
-                <input type="text" id="custName" required placeholder="Örn: Hasan Aslan">
-            </div>
-            <div class="form-group">
-                <label>Telefon Numaranız</label>
-                <input type="tel" id="custPhone" required placeholder="05XX XXX XX XX">
-            </div>
-            <div class="form-group">
-                <label>Teslimat Adresi (Gaziantep)</label>
-                <textarea id="custAddress" rows="3" required placeholder="Mahalle, Cadde, Sokak, Bina No..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Ödeme Yöntemi</label>
-                <select id="paymentMethod">
-                    <option value="Kapıda Nakit">Kapıda Nakit</option>
-                    <option value="Kapıda Kredi Kartı / POS">Kapıda Kredi Kartı (POS)</option>
-                    <option value="IBAN / Havale">IBAN / Havale</option>
-                </select>
-            </div>
-            <button type="submit" class="submit-btn">Siparişi Onayla & Kurye Çağır</button>
-        </form>
-    </div>
-</div>
+    <script>
+        let selectedService = "Evrak / Resmi Dosya";
+        let basePrice = 120;
 
-<script>
-    let cart = [];
-
-    function addToCart(name, price) {
-        cart.push({ name, price });
-        updateCartUI();
-        openCart();
-    }
-
-    function updateCartUI() {
-        document.getElementById('cartCount').innerText = cart.length;
-        let total = cart.reduce((sum, item) => sum + item.price, 0);
-        let itemsText = cart.map(i => i.name).join(', ');
-        document.getElementById('cartSummary').innerText = `Sepetiniz (${cart.length} Ürün): ${total} ₺\n${itemsText}`;
-    }
-
-    function openCart() {
-        if(cart.length === 0) {
-            alert('Sepetiniz boş! Lütfen ürün ekleyin.');
-            return;
-        }
-        document.getElementById('orderModal').style.display = 'flex';
-    }
-
-    function closeCart() {
-        document.getElementById('orderModal').style.display = 'none';
-    }
-
-    async function submitOrder(e) {
-        e.preventDefault();
-        
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        const orderData = {
-            customerName: document.getElementById('custName').value,
-            phone: document.getElementById('custPhone').value,
-            address: document.getElementById('custAddress').value,
-            paymentMethod: document.getElementById('paymentMethod').value,
-            items: cart.map(i => i.name),
-            total: total
-        };
-
-        try {
-            const res = await fetch('/api/orders', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
+        // Hizmet Seçimi
+        document.querySelectorAll('.service-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedService = this.getAttribute('data-service');
+                basePrice = parseInt(this.getAttribute('data-base'));
+                updatePrice();
             });
+        });
 
-            if(res.ok) {
-                alert('Siparişiniz alındı! Kuryemiz yola çıkıyor.');
-                cart = [];
-                updateCartUI();
-                closeCart();
-            } else {
-                alert('Sipariş gönderilirken bir hata oluştu.');
-            }
-        } catch(err) {
-            alert('Sunucuya bağlanılamadı.');
+        // Fiyat Hesaplama
+        document.getElementById('distanceKm').addEventListener('change', updatePrice);
+
+        function updatePrice() {
+            const distanceSelect = document.getElementById('distanceKm');
+            const extraPrice = parseInt(distanceSelect.options[distanceSelect.selectedIndex].getAttribute('data-extra'));
+            const totalPrice = basePrice + extraPrice;
+            document.getElementById('totalPriceDisplay').innerText = totalPrice + " TL";
+            return totalPrice;
         }
-    }
-</script>
 
+        // Form Gönderimi
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+            btn.disabled = true;
+
+            const orderData = {
+                customerName: document.getElementById('customerName').value,
+                phone: document.getElementById('phone').value,
+                pickupAddress: document.getElementById('pickupAddress').value,
+                deliveryAddress: document.getElementById('deliveryAddress').value,
+                serviceType: selectedService,
+                distanceKm: document.getElementById('distanceKm').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                note: document.getElementById('note').value,
+                total: updatePrice()
+            };
+
+            try {
+                const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    alert('🚀 VIP Kurye talebiniz alındı! Kuryemiz yola çıktı. WhatsApp onay mesajınız iletilmiştir.');
+                    document.getElementById('orderForm').reset();
+                    updatePrice();
+                } else {
+                    alert('Hata oluştu: ' + data.error);
+                }
+            } catch (err) {
+                alert('Bağlantı hatası oluştu!');
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> VIP Kurye Talebi Oluştur';
+                btn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
