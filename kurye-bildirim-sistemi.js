@@ -8,7 +8,7 @@ app.use(express.static(__dirname));
 
 // Telegram ve Green-API Sabit Bilgileri
 const BOT_TOKEN = '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
-const CHAT_ID = '-1003900873538'; // Kanal ID'si tam eksi işaretli halde
+const CHAT_ID = '-1003900873538';
 const GREEN_ID_INSTANCE = '710722747828';
 const GREEN_API_TOKEN = 'ce58288d5c364e0e834dfd39e5fe731320d3ef2712a3402e86';
 
@@ -64,8 +64,15 @@ app.post('/api/orders', async (req, res) => {
         const orderId = Math.floor(100000 + Math.random() * 900000);
         
         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ' Gaziantep')}`;
-        const cleanPhone = phone ? phone.replace(/\s+/g, '') : '';
-        const telUrl = `tel:${cleanPhone}`;
+        
+        // Telefon numarasını https://wa.me formatına dönüştürüyoruz (Telegram inline buton hatasını çözer)
+        let cleanPhone = phone ? phone.replace(/\D/g, '') : '';
+        if (cleanPhone.startsWith('0')) {
+            cleanPhone = '90' + cleanPhone.substring(1);
+        } else if (!cleanPhone.startsWith('90')) {
+            cleanPhone = '90' + cleanPhone;
+        }
+        const waContactUrl = `https://wa.me/${cleanPhone}`;
 
         // 1. TELEGRAM KURYE KANAL BİLDİRİMİ
         const telegramMessage = 
@@ -98,7 +105,7 @@ ${items.map(item => `▫️ ${item}`).join('\n')}
                     inline_keyboard: [
                         [
                             { text: "📍 Google Maps Konumu", url: mapsUrl },
-                            { text: "📞 Müşteriyi Ara", url: telUrl }
+                            { text: "💬 Müşteri WhatsApp İletişim", url: waContactUrl }
                         ]
                     ]
                 }
