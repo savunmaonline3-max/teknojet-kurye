@@ -6,13 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Telegram Bilgileri
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '-1003900873538';
-
-// Green-API Bilgileri
-const GREEN_ID_INSTANCE = process.env.GREEN_ID_INSTANCE || '710722747828';
-const GREEN_API_TOKEN = process.env.GREEN_API_TOKEN || 'ce58288d5c364e0e834dfd39e5fe731320d3ef2712a3402e86';
+// Telegram ve Green-API Sabit Bilgileri
+const BOT_TOKEN = '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
+const CHAT_ID = '-1003900873538'; // Kanal ID'si tam eksi işaretli halde
+const GREEN_ID_INSTANCE = '710722747828';
+const GREEN_API_TOKEN = 'ce58288d5c364e0e834dfd39e5fe731320d3ef2712a3402e86';
 
 let bot = null;
 if (BOT_TOKEN) {
@@ -107,7 +105,7 @@ ${items.map(item => `▫️ ${item}`).join('\n')}
             });
         }
 
-        // 2. OTOMATİK WHATSAPP MESAJI
+        // 2. OTOMATİK WHATSAPP MESAJI GÖNDERİMİ
         sendWhatsAppNotification(phone, customerName, orderId, total);
 
         res.status(200).json({ success: true, orderId });
