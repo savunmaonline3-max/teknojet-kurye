@@ -6,23 +6,19 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Telegram Bot Bilgileri
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8771105373:AAHCLCXbuhmUpCPa6EUXaGjRKIjLUURqemw';
-// Senin şahsi Telegram ID'n (RawDataBot'tan aldığımız):
-const CHAT_ID = '23762709';
+// RawDataBot'tan aldığımız yeni Kanal ID'si:
+const CHAT_ID = '-1003900873538'; 
 
 let bot = null;
 if (BOT_TOKEN) {
     bot = new TelegramBot(BOT_TOKEN);
 }
 
-const orders = {};
-
 app.post('/api/orders', async (req, res) => {
     try {
         const { customerName, phone, address, paymentMethod, items, total } = req.body;
         const orderId = Math.floor(100000 + Math.random() * 900000);
-
         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ' Gaziantep')}`;
 
         const message = 
