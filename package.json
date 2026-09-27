@@ -1,17 +1,15 @@
 {
-  "name": "teknojet-kurye-bildirim",
+  "name": "teknojet-kurye",
   "version": "1.0.0",
-  "description": "TeknoJet Plus kurye bildirim servisi",
+  "description": "TeknoJet Plus Kurye ve Bildirim Sistemi",
   "main": "kurye-bildirim-sistemi.js",
   "scripts": {
     "start": "node kurye-bildirim-sistemi.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "node-telegram-bot-api": "^0.66.0",
-    "dotenv": "^16.4.5"
-  },
-  "engines": {
-    "node": ">=18"
+    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.61.0",
+    "dotenv": "^16.0.3",
+    "axios": "^1.6.0"
   }
 }
