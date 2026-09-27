@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeknoJet Plus | VIP Kurumsal Kurye & Lojistik Hizmetleri</title>
+    <title>JetXKurye | Gaziantep VIP Hızlı Kurye Hizmetleri</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -44,7 +44,7 @@
         }
 
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 800;
             color: var(--text-main);
             display: flex;
@@ -72,7 +72,7 @@
 
         .main-container {
             width: 100%;
-            max-width: 700px;
+            max-width: 720px;
             padding: 30px 20px;
         }
 
@@ -99,6 +99,16 @@
             padding: 30px;
             border: 1px solid var(--border-color);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
         }
 
         .service-selector {
@@ -172,6 +182,32 @@
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
         }
 
+        .delivery-option-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .delivery-opt-btn {
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 10px;
+            color: var(--text-sub);
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-opt-btn.active {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
         .price-calculator {
             background: #090d16;
             border: 1px solid var(--border-color);
@@ -192,7 +228,7 @@
         }
 
         .price-info h3 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--accent-green);
             font-weight: 800;
         }
@@ -229,7 +265,7 @@
 
         @media (max-width: 600px) {
             .form-row { grid-template-columns: 1fr; }
-            .service-selector { grid-template-columns: repeat(2, 1fr); }
+            .delivery-option-box { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -237,7 +273,7 @@
 
     <header>
         <div class="logo">
-            <i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i> TEKNOJET<span>PLUS</span>
+            <i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i> JETX<span>KURYE</span>
         </div>
         <div class="badge">
             <i class="fa-solid fa-shield-halved"></i> Gaziantep VIP Lojistik
@@ -247,28 +283,39 @@
     <div class="main-container">
         <div class="hero-title">
             <h1>Kurumsal VIP Kurye Çağır</h1>
-            <p>Gaziantep içi evrak, paket, hassas eşya ve hızlı kurye çözümleri</p>
+            <p>Gaziantep içi evrak, paket, koli ve VIP kurye hizmeti</p>
         </div>
 
         <div class="order-card">
-            <!-- Gönderi Tipi Seçimi -->
-            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; display: block; margin-bottom: 12px;">Gönderi Türü Seçin</label>
+            <!-- Gönderi Türü -->
+            <span class="section-label">1. Gönderi Türü Seçin</span>
             <div class="service-selector">
-                <div class="service-btn active" data-service="Evrak / Resmi Dosya" data-base="120">
+                <div class="service-btn active" data-service="Evrak / Resmi Dosya" data-base="130">
                     <i class="fa-solid fa-file-contract"></i>
-                    Evrak / Dosya
+                    Evrak / Dosya (130 TL)
                 </div>
                 <div class="service-btn" data-service="Paket / Koli Taşıma" data-base="150">
                     <i class="fa-solid fa-box-open"></i>
-                    Paket / Koli
+                    Paket / Koli (150 TL)
                 </div>
                 <div class="service-btn" data-service="Hassas / Değerli Eşya" data-base="200">
                     <i class="fa-solid fa-gem"></i>
-                    Hassas Eşya
+                    Hassas Eşya (200 TL)
                 </div>
                 <div class="service-btn" data-service="VIP Şarj & Teknoloji Kurye" data-base="140">
                     <i class="fa-solid fa-charging-station"></i>
-                    VIP Teknoloji
+                    VIP Teknoloji (140 TL)
+                </div>
+            </div>
+
+            <!-- Teslimat Yönü Seçimi -->
+            <span class="section-label">2. Teslimat Yönü</span>
+            <div class="delivery-option-box">
+                <div class="delivery-opt-btn active" data-type="Sadece Tek Yön Teslimat" data-extra="0">
+                    <i class="fa-solid fa-arrow-right"></i> Sadece Bırak (Tek Yön)
+                </div>
+                <div class="delivery-opt-btn" data-type="Gidiş - Dönüş / İmzalatıp Geri Getirme" data-extra="90">
+                    <i class="fa-solid fa-arrows-rotate"></i> Gidiş + Dönüş (+90 TL)
                 </div>
             </div>
 
@@ -286,28 +333,28 @@
 
                 <div class="form-group">
                     <label><i class="fa-solid fa-location-arrow"></i> Paket Alım Adresi (Nereden?)</label>
-                    <input type="text" id="pickupAddress" class="form-control" placeholder="Mahalle, Cadde, İş Yeri veya Adres..." required>
+                    <input type="text" id="pickupAddress" class="form-control" placeholder="Mahalle, Cadde, İş Yeri Adresi..." required>
                 </div>
 
                 <div class="form-group">
                     <label><i class="fa-solid fa-location-dot"></i> Teslimat Adresi (Nereye?)</label>
-                    <input type="text" id="deliveryAddress" class="form-control" placeholder="Teslim edilecek adres / Şahıs bilgisi..." required>
+                    <input type="text" id="deliveryAddress" class="form-control" placeholder="Teslim edilecek adres / İrtibat kişisi..." required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label><i class="fa-solid fa-route"></i> Tahmini Mesafe (KM)</label>
+                        <label><i class="fa-solid fa-route"></i> Tahmini Mesafe</label>
                         <select id="distanceKm" class="form-control">
-                            <option value="1-5 KM (Şehir İçi Yakın)" data-extra="0">1 - 5 KM (Şehir İçi)</option>
-                            <option value="5-10 KM (Orta Mesafe)" data-extra="40">5 - 10 KM (Orta Bölge)</option>
-                            <option value="10-20 KM (Uzak Bölge / Organize)" data-extra="90">10 - 20 KM (Organize Sanayi/Uzak)</option>
+                            <option value="1 - 10 KM (Şehir İçi Standart)" data-add="0">1 - 10 KM (Standart Bölge)</option>
+                            <option value="10 - 15 KM (Orta Bölge / Sanayi)" data-add="50">10 - 15 KM (+50 TL Fark)</option>
+                            <option value="15 - 25 KM (Organize Sanayi / Uzak)" data-add="100">15 - 25 KM (+100 TL Fark)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label><i class="fa-solid fa-wallet"></i> Ödeme Tipi</label>
                         <select id="paymentMethod" class="form-control">
-                            <option value="Kapıda Nakit">Kapıda Nakit</option>
+                            <option value="Kapıda Nakit">Kapıda Nakit Ödeme</option>
                             <option value="Kapıda Kredi Kartı">Kapıda POS / Kredi Kartı</option>
                             <option value="Havale / EFT">Şirket Hesabına Havale</option>
                         </select>
@@ -316,14 +363,14 @@
 
                 <div class="form-group">
                     <label><i class="fa-regular fa-note-sticky"></i> Kuryeye Not (Opsiyonel)</label>
-                    <input type="text" id="note" class="form-control" placeholder="Örn: Evrak acildir, imzalanıp geri getirilecek.">
+                    <input type="text" id="note" class="form-control" placeholder="Örn: Evrak imzalatılıp merkeze geri getirilecek.">
                 </div>
 
-                <!-- Canlı Fiyat Paneli -->
+                <!-- Canlı Hesaplama Paneli -->
                 <div class="price-calculator">
                     <div class="price-info">
-                        <span>Hesaplanan Kurye Ücreti</span>
-                        <h3 id="totalPriceDisplay">120 TL</h3>
+                        <span>Hesaplanan Toplam Tutar</span>
+                        <h3 id="totalPriceDisplay">130 TL</h3>
                     </div>
                     <div style="color: var(--text-sub); font-size: 0.85rem; text-align: right;">
                         <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i> Sabit Fiyat Garantisi
@@ -338,12 +385,14 @@
     </div>
 
     <footer>
-        &copy; 2026 TeknoJet Plus Kurumsal Kurye & Lojistik Hizmetleri | Gaziantep
+        &copy; 2026 JetXKurye VIP Lojistik & Kurye Hizmetleri | Gaziantep
     </footer>
 
     <script>
         let selectedService = "Evrak / Resmi Dosya";
-        let basePrice = 120;
+        let basePrice = 130;
+        let deliveryType = "Sadece Tek Yön Teslimat";
+        let returnExtraPrice = 0;
 
         // Hizmet Seçimi
         document.querySelectorAll('.service-btn').forEach(btn => {
@@ -356,13 +405,24 @@
             });
         });
 
-        // Fiyat Hesaplama
+        // Teslimat Yönü Seçimi (Gidiş-Dönüş)
+        document.querySelectorAll('.delivery-opt-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.delivery-opt-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                deliveryType = this.getAttribute('data-type');
+                returnExtraPrice = parseInt(this.getAttribute('data-extra'));
+                updatePrice();
+            });
+        });
+
+        // Mesafe Farkı
         document.getElementById('distanceKm').addEventListener('change', updatePrice);
 
         function updatePrice() {
             const distanceSelect = document.getElementById('distanceKm');
-            const extraPrice = parseInt(distanceSelect.options[distanceSelect.selectedIndex].getAttribute('data-extra'));
-            const totalPrice = basePrice + extraPrice;
+            const distanceExtra = parseInt(distanceSelect.options[distanceSelect.selectedIndex].getAttribute('data-add'));
+            const totalPrice = basePrice + returnExtraPrice + distanceExtra;
             document.getElementById('totalPriceDisplay').innerText = totalPrice + " TL";
             return totalPrice;
         }
@@ -381,6 +441,7 @@
                 pickupAddress: document.getElementById('pickupAddress').value,
                 deliveryAddress: document.getElementById('deliveryAddress').value,
                 serviceType: selectedService,
+                deliveryType: deliveryType,
                 distanceKm: document.getElementById('distanceKm').value,
                 paymentMethod: document.getElementById('paymentMethod').value,
                 note: document.getElementById('note').value,
@@ -397,7 +458,7 @@
                 const data = await res.json();
 
                 if (data.success) {
-                    alert('🚀 VIP Kurye talebiniz alındı! Kuryemiz yola çıktı. WhatsApp onay mesajınız iletilmiştir.');
+                    alert('🚀 JetXKurye talebiniz başarıyla oluşturuldu! Kuryemiz yola çıktı. WhatsApp onay mesajınız iletilmiştir.');
                     document.getElementById('orderForm').reset();
                     updatePrice();
                 } else {
